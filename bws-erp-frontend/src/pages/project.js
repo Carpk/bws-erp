@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
-import Header from './components/Header';
+// import Header from './components/Header';
 import ReactDOM from 'react-dom';
 // import {Link} from "react-router-dom";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Table from 'react-bootstrap/Table';
@@ -13,158 +13,209 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 
 
-import Modal from 'react-bootstrap/Modal';
-
-import { faker } from '@faker-js/faker';
 import Data from './components/fakedata';
 import ToolBar from './components/ToolBar';
+import ProjTable from './components/ProjTable';
+import ItemTable from './components/ItemTable';
 
-
-
-
-
-
-// {
-//   if (data.details.includes(detail.id))
-//     return detail
-// }
-
-// const detail = Data[data.details[0]]
 // const { id } = useParams()
 
 
-const data = Data.projects[0]
-const details = Data.details.filter((detail) => 
-  data.details.includes(detail.id))
+
+
+
+
+
+// const data = Data.projects[0]
+// const details = Data.details.filter((detail) => 
+//   data.details.includes(detail.id))
 
 
 
 
   
 const Project = () => {
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const [view, setView] = useState("proj")
   let rowid = 0
-
-
-
-  function addRow() {
-    const td = "<td></td><td></td><td></td><td></td><td>"+
-               "</td><td></td><td></td><td></td><td>⚙</td>"
-
-    // var table = document.getElementById("r"+rowid)
-    var newRow = document.createElement('tr', rowid + 1)
-    newRow.innerHTML = td
-    document.getElementById("tableRows").appendChild(newRow)
-    // need to append the new row to the state array
-
-    // var dish = React.createElement("h1", null, "Baked Salmon")
-    // ReactDOM.render(dish, document.getElementById('tableRows'))
-  }
+  const data = Data.projects[0]
+  let navigate = useNavigate(); 
+  const details = Data.details.filter((detail) => 
+    data.details.includes(detail.id))
 
 
   const HeaderRow = () =>
-      React.createElement("tr", null,
-        React.createElement("th", { key: "item" }, "Item"),
-        React.createElement("th", { key: "mats" }, "Materials"),
-        React.createElement("th", { key: "mhrs" }, "Hours"),
-        React.createElement("th", { key: "paint" },"Paint"),
-        React.createElement("th", { key: "phrs" }, "Hours"),
-        React.createElement("th", { key: "mgmt" }, "Mgmt"),
-        React.createElement("th", { key: "nstll" },"Install"),
-        React.createElement("th", { key: "labr" }, "Labor"),
-        React.createElement("th", { key: "ctrl" }, "")
-      )
+  React.createElement("tr", null,
+    React.createElement("th", { key: "item" }, "Item"),
+    React.createElement("th", { key: "mats" }, "Materials"),
+    React.createElement("th", { key: "mhrs" }, "Hours"),
+    React.createElement("th", { key: "paint" },"Paint"),
+    React.createElement("th", { key: "phrs" }, "Hours"),
+    React.createElement("th", { key: "mgmt" }, "Mgmt"),
+    React.createElement("th", { key: "nstll" },"Install"),
+    React.createElement("th", { key: "labr" }, "Labor"),
+    React.createElement("th", { key: "ctrl" }, "")
+  )
 
 
-  const DetailRows = ({details}) =>
-    details.map((detail) =>
-      React.createElement("tr", null,
-        React.createElement("td", { key: ++rowid }, 
-        <div contenteditable="true" >{detail.name}</div>),
-        React.createElement("td", { key: ++rowid }, 0.00),
-        React.createElement("td", { key: ++rowid }, 0.00),
-        React.createElement("td", { key: ++rowid }, 0.00),
-        React.createElement("td", { key: ++rowid }, 0.00),
-        React.createElement("td", { key: ++rowid }, 0.00),
-        React.createElement("td", { key: ++rowid }, 0.00),
-        React.createElement("td", { key: ++rowid }, 0.00),
-        React.createElement("td", { key: ++rowid }, 
-          <a href="#" onClick={() => handleShow(detail.id)}>⚙</a>
-        )
-      )
+const DetailRows = ( detail ) =>
+  React.createElement("tr", null,
+    React.createElement("td", { key: ++rowid }, detail.name),
+    React.createElement("td", { key: ++rowid }, 0.00),
+    React.createElement("td", { key: ++rowid }, 0.00),
+    React.createElement("td", { key: ++rowid }, 0.00),
+    React.createElement("td", { key: ++rowid }, 0.00),
+    React.createElement("td", { key: ++rowid }, 0.00),
+    React.createElement("td", { key: ++rowid }, 0.00),
+    React.createElement("td", { key: ++rowid }, 0.00),
+    React.createElement("td", { key: ++rowid }, 
+      <a href="#" onClick={() => editItem(detail.id)}>⚙</a>
     )
+  )
+
+
+  const ProjDiv = () =>
+    <Container fluid="md">
+      
+      <Form>
+        <Row>
+          <Form.Group as={Col} className="mb-3" controlId="formGridJobName">
+            <Form.Label>Job Name</Form.Label>
+            <Form.Control defaultValue={data.job_name} />
+          </Form.Group>
+          <Form.Group as={Col} className="mb-3" controlId="formGridPassword">
+            <Form.Label>Bid Number</Form.Label>
+            <Form.Control defaultValue={data.bid_number} />
+          </Form.Group>
+          <Form.Group as={Col} className="mb-3" controlId="formGridJobNumber">
+            <Form.Label>Job Number</Form.Label>
+            <Form.Control defaultValue={data.job_number} />
+          </Form.Group>
+          <Form.Group as={Col} className="mb-3" controlId="formGridPO">
+            <Form.Label>PO#</Form.Label>
+            <Form.Control defaultValue={data.purchase_order}/>
+          </Form.Group>
+        </Row>
+
+        <Table striped bordered hover>
+          <thead>
+            <HeaderRow />
+          </thead>
+          <tbody id="tableRows">
+            {details.map((detail, i) =>
+              <DetailRows {...detail}/>
+            )}
+            <tr>
+              <td>Total</td>
+              <td>0.00</td>
+              <td>0.00</td>
+              <td>0.00</td>
+              <td>0.00</td>
+              <td>0.00</td>
+              <td>0.00</td>
+              <td>0.00</td>
+              <td></td>
+            </tr>
+          </tbody>
+        </Table>
+      </Form>
+    </Container>
+
+
+  function toggleView() {
+    navigate('/accounting/invoice/:id/item')
+
+    // const layout = (view == "proj") ? "item" : "proj"
+    // setView(layout)
+  }
+
+  function editItem(id) {
+
+  }
 
   return (
-    <div>
-      <Header />
-      <Container fluid="md">
-        <Row>
-          <ToolBar />
-        </Row>
-        <Form>
-          <Row>
-            <Form.Group as={Col} className="mb-3" controlId="formGridJobName">
-              <Form.Label>Job Name</Form.Label>
-              <Form.Control defaultValue={data.job_name} />
-            </Form.Group>
-
-            <Form.Group as={Col} className="mb-3" controlId="formGridPassword">
-              <Form.Label>Bid Number</Form.Label>
-              <Form.Control defaultValue={data.bid_number} />
-            </Form.Group>
-
-            <Form.Group as={Col} className="mb-3" controlId="formGridJobNumber">
-              <Form.Label>Job Number</Form.Label>
-              <Form.Control defaultValue={data.job_number} />
-            </Form.Group>
-
-            <Form.Group as={Col} className="mb-3" controlId="formGridPO">
-              <Form.Label>PO#</Form.Label>
-              <Form.Control defaultValue={data.purchase_order}/>
-            </Form.Group>
-          </Row>
-
-          <Table striped bordered hover>
-            <thead>
-              <HeaderRow />
-            </thead>
-            <tbody id="tableRows">
-              {/* {details.map((detail, i) =>
-                <DetailRows {...detail}/>
-              )} */}
-              <DetailRows details={details}/>
-              <tr>
-                <td>Total</td>
-                <td>0.00</td>
-                <td>0.00</td>
-                <td>0.00</td>
-                <td>0.00</td>
-                <td>0.00</td>
-                <td>0.00</td>
-                <td>0.00</td>
-                <td></td>
-              </tr>
-            </tbody>
-          </Table>
-          <Button href="/accounting/invoice/:id/item/new" variant="light">New item</Button>
-
-        </Form>
-        <Row className="float-end">
-          <Button variant="primary" type="submit">
-            Save
+    <Container fluid="md">
+      <ToolBar />
+      <Row>
+        <ProjDiv /> 
+      </Row>
+      <Row>
+        <Col>
+          <Button variant="light" onClick={() => toggleView()}>
+            New item
           </Button>
-        </Row>
-      </Container>
-
+        </Col>
+      </Row>
+      <Row className="float-end">
+        <Button variant="primary" onClick={() => toggleView()} type="submit">
+          Save
+        </Button>
+      </Row>
       
-    </div>
+    </Container>
   );
 };
 
 export default Project;
+
+
+
+
+
+
+
+{/* <Row className="float-end">
+  <Button variant="primary" type="submit">
+    Save
+  </Button>
+</Row> */}
+
+
+
+{/* <Form>
+<Row>
+  <Form.Group as={Col} className="mb-3" controlId="formGridJobName">
+    <Form.Label>Job Name</Form.Label>
+    <Form.Control defaultValue={data.job_name} />
+  </Form.Group>
+
+  <Form.Group as={Col} className="mb-3" controlId="formGridPassword">
+    <Form.Label>Bid Number</Form.Label>
+    <Form.Control defaultValue={data.bid_number} />
+  </Form.Group>
+
+  <Form.Group as={Col} className="mb-3" controlId="formGridJobNumber">
+    <Form.Label>Job Number</Form.Label>
+    <Form.Control defaultValue={data.job_number} />
+  </Form.Group>
+
+  <Form.Group as={Col} className="mb-3" controlId="formGridPO">
+    <Form.Label>PO#</Form.Label>
+    <Form.Control defaultValue={data.purchase_order}/>
+  </Form.Group>
+</Row>
+
+<Table striped bordered hover>
+  <thead>
+    <HeaderRow />
+  </thead>
+  <tbody id="tableRows">
+    <DetailRows details={details}/>
+    <tr>
+      <td>Total</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td>0.00</td>
+      <td></td>
+    </tr>
+  </tbody>
+</Table>
+<Button href="/accounting/invoice/:id/item/new" variant="light">New item</Button>
+
+</Form> */}
 
 
 
@@ -186,8 +237,6 @@ export default Project;
   </Button>
 </Modal.Footer>
 </Modal> */}
-
-
 
 
 

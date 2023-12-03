@@ -1,8 +1,7 @@
-import './item.css';
+// import './item.css';
 
 import React from 'react';
 import { useState } from 'react';
-import Header from './components/Header';
 import ReactDOM from 'react-dom';
 // import {Link} from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -17,7 +16,6 @@ import Form from 'react-bootstrap/Form';
 
 import Modal from 'react-bootstrap/Modal';
 
-import { faker, tr } from '@faker-js/faker';
 import Data from './components/fakedata';
 import ToolBar from './components/ToolBar';
 
@@ -25,7 +23,7 @@ import ToolBar from './components/ToolBar';
 
 
 
-const Item = () => {
+const Item = (layout) => {
   let items = Data.items
   let rows = []
 
@@ -41,114 +39,108 @@ const Item = () => {
     )
   }
 
-  const buildRow = () =>
-    React.createElement("tr", null,
-      React.createElement("th", null, ""),
-      React.createElement("th", null, ""),
-      React.createElement("th", null, "")
-    )
-  function retRow() {
-    return React.createElement("tr", null,
-            React.createElement("th", null, ""),
-            React.createElement("th", null, ""),
-            React.createElement("th", null, "")
-          )
-  }
 
   function addRow() {
-    // const innerdata  = () =>
-    //     React.createElement("tr", null,
-    //       React.createElement("th", null, ""),
-    //       React.createElement("th", null, ""),
-    //       React.createElement("th", null, "")
-    //     )
+    const innerRow  = "<td></td><td contenteditable='true'></td><td>"+               
+                  "</td><td></td><td></td><td></td><td></td>"
 
-    // var newRow = document.createElement('tr', null)
-    // newRow.innerHTML = innerdata
-    document.getElementById("tableRows").appendChild(retRow)
-    rows.push(retRow)
+    var newRow = document.createElement('tr', null)
+    newRow.innerHTML = innerRow
+    document.getElementById("tableRows").appendChild(newRow)
+    // rows.push(innerRow)
   }
 
 
-  function CreateRow({name, quantity, cost}) {
+  function CreateRow({name, quantity, footage, cost}) {
     return (
       <tr>
         <td></td>
         <td contenteditable="true">{name}</td>
-        <td className='shortInput'><BuildSelect /></td>
         <td contenteditable="true">{quantity}</td>
         <td contenteditable="true">${cost}</td>
         <td>${cost * quantity}</td>
-        <td></td>
-        <td></td>
+        <td contenteditable="true">{footage}</td>
+        <td>{footage * quantity}</td>
         <td></td>
       </tr>
     )
   }
-  return (
-    <div>
-      <Header />
-      <Container fluid="md">
-        <Row>
-          <ToolBar />
-        </Row>
-        <Form>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th></th>
-                <th>Materials</th>
-                <th></th>
-                <th>Quantity</th>
-                <th>Unit Cost</th>
-                <th>Total</th>
-                <th>ft</th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="tableRows">
-              <tr>
-                <td></td>
-                <td contenteditable="true">3/4 plywood</td>
-                <td className='shortInput'>
-                  <BuildSelect/>
-                </td>
-                <td>16</td>
-                <td>$65.65</td>
-                <td>$1050.40</td>
-                <td>512</td>
-                <td></td>
-                <td></td>
-                
-              </tr>
-              { items.map( (row) => 
-                // <CreateRow {...row} />
-                <tr>
-                  <td></td>
-                  <td contenteditable="true">{row.name}</td>
-                  <td className='shortInput'><BuildSelect /></td>
-                  <td contenteditable="true">{row.quantity}</td>
-                  <td contenteditable="true">${row.cost}</td>
-                  <td>${row.cost * row.quantity}</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                </tr>
-              )}
-            </tbody>
-          </Table>
-          <Button variant="light" onClick={addRow}>New item</Button>
 
-        </Form>
-        <Row className="float-end">
-          <Button variant="primary" type="submit">
-            Save
-          </Button>
+
+  return (
+    <Container fluid="md">
+      <ToolBar />
+      <Form>
+        <Row>
+          <Form.Group as={Col} className="mb-2" controlId="formItemName">
+            <Form.Label>Item</Form.Label>
+            <Form.Control defaultValue={"unit name"} />
+          </Form.Group>
+
+          <Form.Group as={Col} className="mb-2" controlId="formQuantity">
+            <Form.Label>Quantity</Form.Label>
+            <Form.Control defaultValue={1} />
+          </Form.Group>
+
+          <Form.Group as={Col} className="mb-2" controlId="formGridJobName">
+            <Form.Label>Cost</Form.Label>
+            <Form.Control disabled />
+          </Form.Group>
         </Row>
-      </Container>
-      
-    </div>
+        <Row>
+        <Form.Group as={Col} className="mb-4" controlId="formQuantity">
+            <Form.Label>Quantity</Form.Label>
+            <Form.Control />
+          </Form.Group>
+
+          <Form.Group as={Col} className="mb-4" controlId="formGridJobName">
+            <Form.Label>per unit</Form.Label>
+            <Form.Control disabled />
+          </Form.Group>
+
+          <Form.Group as={Col} className="mb-4" controlId="formItemName">
+            <Form.Label>Width</Form.Label>
+            <Form.Control />
+          </Form.Group>
+
+          <Form.Group as={Col} className="mb-4" controlId="formQuantity">
+            <Form.Label>Height</Form.Label>
+            <Form.Control />
+          </Form.Group>
+
+          <Form.Group as={Col} className="mb-4" controlId="formGridJobName">
+            <Form.Label>Sqft</Form.Label>
+            <Form.Control disabled />
+          </Form.Group>
+
+          <Form.Group as={Col} className="mb-4" controlId="none">
+            {/* <Form.Label>Sqft</Form.Label>
+            <Form.Control defaultValue={"test"} /> */}
+          </Form.Group>
+        </Row>
+
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Materials</th>
+              <th>Quantity</th>
+              <th>Unit Cost</th>
+              <th>Total</th>
+              <th>ft</th>
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="tableRows">
+            { items.map( (row) => 
+              <CreateRow {...row} />
+            )}
+          </tbody>
+        </Table>
+        <Button variant="light" onClick={addRow}>Add row</Button>
+      </Form>
+    </Container>
   )
 }
 
@@ -158,7 +150,29 @@ export default Item;
 
 
 
+
+
+
+
 // "<td></td><td contenteditable='true'></td><td>"+               
 // "<Form.Select><option value='1'>Linear ft</option>"+
 // '<option value="2">Sq ft</option><option value="32">4x8</option>'+
 // "</Form.Select></td><td></td><td></td><td></td><td></td><td></td>"
+
+
+
+
+  // const buildRow = () =>
+  //   React.createElement("tr", null,
+  //     React.createElement("th", null, ""),
+  //     React.createElement("th", null, ""),
+  //     React.createElement("th", null, "")
+  //   )
+
+  // function retRow() {
+  //   return React.createElement("tr", null,
+  //           React.createElement("th", null, ""),
+  //           React.createElement("th", null, ""),
+  //           React.createElement("th", null, "")
+  //         )
+  // }

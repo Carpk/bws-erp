@@ -5,6 +5,7 @@ import { React } from "react";
 // import axios from './components/axios'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 // import { ThemeProvider } from 'react-bootstrap';
+import Header from './pages/components/Header';
 
 import Landing from "./pages/landing";
 import Orders from "./pages/orders";
@@ -21,6 +22,7 @@ import Item from "./pages/item";
 function App() {
   return (
     <div >
+      <Header />
       <BrowserRouter>
        <Routes>
           <Route path="/" exact element={<Landing />} />
@@ -35,7 +37,7 @@ function App() {
           <Route path="/accounting/users" exact element={<Users />} />
           <Route path="/accounting/invoice/new" exact element={<Invoice />} />
           <Route path="/accounting/invoice/:id" exact element={<Project />} />
-          <Route path="/accounting/invoice/:id/item/new" exact element={<Item />} />
+          <Route path="/accounting/invoice/:id/item" exact element={<Item />} />
 
         </Routes>
       </BrowserRouter>
