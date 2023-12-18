@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import Cors from 'cors'
 import Orders from './orders-model.js'
 import Tasks from './tasks-model.js'
+import Projects from './projects-model.js'
 import { faker } from '@faker-js/faker';
 
 //App Config
@@ -78,6 +79,29 @@ app.get('/tasks/all', async (req, res) => {
   Tasks.find().then((data) => {
     res.status(200).send(data)
   }).catch(err => {
+    res.status(500).send(err)
+  })
+})
+
+app.post('/accounting/project/new', async (req, res) => {
+  const dbProject = req.body
+
+  // [
+  //   { "job_name": faker.commerce.productName(),
+  //     "production_status": faker.person.firstName(),
+  //     "bid_number": faker.number.int(7) + 1,
+  //     "job_number": faker.company.buzzNoun(),
+  //     "purchase_order": faker.internet.url(),
+  //     "date": fakeDates('02-01', '02-18'),
+  //     "status": status[randStat],
+  //     "ordered": randStat > 1 ? fakeDates('02-19', '03-01') : null,
+  //     "recieved": randStat > 3 ? fakeDates('03-02', '03-10') : null
+  //   }
+  // ]
+
+  Projects.create(dbProject).then((data) => {
+    res.status(201).send(data)
+  }).catch( err => {
     res.status(500).send(err)
   })
 })

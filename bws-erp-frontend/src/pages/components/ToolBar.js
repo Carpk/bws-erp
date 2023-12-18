@@ -31,9 +31,6 @@ function ToolBar() {
           </Nav>
           <Nav>
             <Nav.Link eventKey={2} href="#Weights">
-              Sizes
-            </Nav.Link>
-            <Nav.Link eventKey={2} href="#Weights">
               Weights
             </Nav.Link>
             <Nav.Link eventKey={2} href="#Costs">

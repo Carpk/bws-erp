@@ -113,20 +113,20 @@ const Home = () => {
                 </Table>
               </Card.Text>
               <Card.Link href="/orders">Go to orders</Card.Link>
-              {/* <Link to={`/accounting/invoice/new`}>invoices</Link> */}
+              {/* <Link to={`/accounting/estimate/new`}>invoices</Link> */}
             </Card.Body>
           </Card>
         </Col>
         <Col>
         <Card>
             <Card.Body>
-              <Card.Title>Accounting/Project</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
+              <Card.Title>Estimates</Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">current bids and esimates</Card.Subtitle>
               <Card.Text>
                 <ListGroup>
                   { Data.projects.map((proj) => {        
                     return (
-                      <a href={`/accounting/invoice/${proj.id}`}>
+                      <a href={`/accounting/estimate/${proj.id}`}>
                         <ListGroup.Item>{proj.job_name}</ListGroup.Item>
                       </a>
                     ) 

@@ -1,0 +1,30 @@
+
+
+editable tables
+https://tanstack.com/table/v8/docs/guide/introduction
+
+
+
+graphs and charts
+
+
+
+
+gear and file icons
+
+
+
+
+UIs:
+https://tailwindui.com/components
+https://mui.com/material-ui/react-card/
+
+
+
+
+CODE SNIPS:
+<Link to={"./#"}></Link>
+class="float-end"
+
+
+

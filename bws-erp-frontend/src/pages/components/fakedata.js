@@ -1,5 +1,4 @@
 
-
 const FakeData = {
   projects: [{
       id: 1101,
@@ -53,44 +52,50 @@ const FakeData = {
       id: 1301,
       name: "CNC Program",
       dept: "programming",
+      quantity: 1,
+      hours: 4,
       dates: {start: "2023-10-10", end: "2023-10-19"},
       description: "",
-      quantity: 0,
     },{
       id: 1302,
       name: "CNC cut",
       dept: "cnc",
+      quantity: 1,
+      hours: 4,
       dates: {start: "2023-10-10", end: "2023-10-19"},
       description: "",
-      quantity: 0,
     },{
       id: 1303,
       name: "post-process sanding",
       dept: "carpentry",
+      quantity: 1,
+      hours: 4,
       dates: {start: "2023-10-10", end: "2023-10-19"},
       description: "",
-      quantity: 0,
     },{
       id: 1304,
       name: "paint primer",
       dept: "paint",
+      quantity: 1,
+      hours: 4,
       dates: {start: "2023-10-10", end: "2023-10-19"},
       description: "",
-      quantity: 0,
     },{
       id: 1305,
       name: "build crate",
       dept: "carpentry",
+      quantity: 1,
+      hours: 4,
       dates: {start: "2023-10-10", end: "2023-10-19"},
       description: "",
-      quantity: 0,
     },{
       id: 1306,
       name: "package and ship",
       dept: "logistics",
+      quantity: 1,
+      hours: 4,
       dates: {start: "2023-10-10", end: "2023-10-19"},
       description: "",
-      quantity: 0,
   },],
 
   items: [{

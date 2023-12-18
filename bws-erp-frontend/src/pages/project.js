@@ -2,8 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 // import Header from './components/Header';
 import ReactDOM from 'react-dom';
-// import {Link} from "react-router-dom";
-import { useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import Table from 'react-bootstrap/Table';
@@ -15,8 +14,8 @@ import Form from 'react-bootstrap/Form';
 
 import Data from './components/fakedata';
 import ToolBar from './components/ToolBar';
-import ProjTable from './components/ProjTable';
-import ItemTable from './components/ItemTable';
+// import ProjTable from './components/ProjTable';
+// import ItemTable from './components/ItemTable';
 
 // const { id } = useParams()
 
@@ -44,17 +43,17 @@ const Project = () => {
 
 
   const HeaderRow = () =>
-  React.createElement("tr", null,
-    React.createElement("th", { key: "item" }, "Item"),
-    React.createElement("th", { key: "mats" }, "Materials"),
-    React.createElement("th", { key: "mhrs" }, "Hours"),
-    React.createElement("th", { key: "paint" },"Paint"),
-    React.createElement("th", { key: "phrs" }, "Hours"),
-    React.createElement("th", { key: "mgmt" }, "Mgmt"),
-    React.createElement("th", { key: "nstll" },"Install"),
-    React.createElement("th", { key: "labr" }, "Labor"),
-    React.createElement("th", { key: "ctrl" }, "")
-  )
+    React.createElement("tr", null,
+      React.createElement("th", { key: "item" }, "Item"),
+      React.createElement("th", { key: "mats" }, "Materials"),
+      React.createElement("th", { key: "mhrs" }, "Hours"),
+      React.createElement("th", { key: "paint" },"Paint"),
+      React.createElement("th", { key: "phrs" }, "Hours"),
+      React.createElement("th", { key: "mgmt" }, "Mgmt"),
+      React.createElement("th", { key: "nstll" },"Install"),
+      React.createElement("th", { key: "labr" }, "Labor"),
+      React.createElement("th", { key: "ctrl" }, "")
+    )
 
 
 const DetailRows = ( detail ) =>
@@ -67,8 +66,14 @@ const DetailRows = ( detail ) =>
     React.createElement("td", { key: ++rowid }, 0.00),
     React.createElement("td", { key: ++rowid }, 0.00),
     React.createElement("td", { key: ++rowid }, 0.00),
-    React.createElement("td", { key: ++rowid }, 
-      <a href="#" onClick={() => editItem(detail.id)}>⚙</a>
+    React.createElement("td", { key: ++rowid },
+      <Link to={{
+        pathname: "/accounting/estimate/" + data.id + "/" + detail.id,
+        state: detail
+       }} >
+      ⚙
+      </Link>
+      // <a href="#" onClick={() => editItem(detail.id)}>⚙</a>
     )
   )
 
@@ -122,7 +127,7 @@ const DetailRows = ( detail ) =>
 
 
   function toggleView() {
-    navigate('/accounting/invoice/:id/item')
+    navigate('/accounting/estimate/:id/item')
 
     // const layout = (view == "proj") ? "item" : "proj"
     // setView(layout)

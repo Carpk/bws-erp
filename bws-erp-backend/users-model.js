@@ -1,7 +1,6 @@
 import mongoose from 'mongoose'
 
-const ordersSchema = mongoose.Schema({
-  item: String,
+const usersSchema = mongoose.Schema({
   name: String,
   quantity: String,
   project: String,
@@ -12,4 +11,4 @@ const ordersSchema = mongoose.Schema({
   recieved: String
 })
 
-export default mongoose.model('orders', ordersSchema)
+export default mongoose.model('users', usersSchema)
