@@ -13,10 +13,11 @@ import Form from 'react-bootstrap/Form';
 import axios from './components/axios'
 import ToolBar from './components/ToolBar';
 
-
+import Data from './components/fakedata';
 
 const Estimate = () => {
-  const headerCols = ["Item","Materials","Hours","Paint","pHours", "Mgmt","Install", "Labor"]
+  const details = Data.details
+  const headerCols = ["Item","Materials","Hours","Paint","pHours", "Mgmt","Install", "Labor",""]
   const [items, setItems] = useState([])
 
   // useEffect(() => {
@@ -29,31 +30,50 @@ const Estimate = () => {
   // }, [])
 
   const HeaderRow = () =>
-    React.createElement("tr", null,
-      headerCols.map((title, i) =>
-        React.createElement("th", { key: i }, title),
+    React.createElement("thead", null,
+      React.createElement("tr", null,
+        headerCols.map((title, i) =>
+          React.createElement("th", { key: i }, title),
+        )
       )
     )
 
-  const Item = () => {
-
-  }
+  const Detail = ({id, name}) => 
+    React.createElement("tr", null,
+      React.createElement("td", { key: id }, name),
+      React.createElement("td", { key: id }, 0.00),
+      React.createElement("td", { key: id }, 0.00),
+      React.createElement("td", { key: id }, 0.00),
+      React.createElement("td", { key: id }, 0.00),
+      React.createElement("td", { key: id }, 0.00),
+      React.createElement("td", { key: id }, 0.00),
+      React.createElement("td", { key: id }, 0.00),
+      React.createElement("td", { key: id },
+        <Link to={{
+          pathname: "/accounting/estimate/" + id + "/" + id,
+          state: id
+        }} >
+        ⚙
+        </Link>
+        // <a href="#" onClick={() => editItem(detail.id)}>⚙</a>
+      )
+    )
 
   return (
     <Container fluid="md">
       <Row>
-      <ToolBar />
+        <ToolBar />
       </Row>
       <Form>
         <Row>
           <Form.Group as={Col} controlId="formJobName">
             <Form.Label>Job Name</Form.Label>
-            <Form.Control placeholder="Enter Job Name" />
+            <Form.Control placeholder="" />
           </Form.Group>
 
           <Form.Group as={Col} controlId="formBidNumber">
             <Form.Label>Bid Number</Form.Label>
-            <Form.Control type="plaintext" placeholder="1234567" />
+            <Form.Control type="plaintext" placeholder="" />
           </Form.Group>
 
           <Form.Group as={Col} className="mb-3" controlId="formJobNumber">
@@ -68,13 +88,11 @@ const Estimate = () => {
         </Row>
 
         <Table striped bordered hover>
-          <thead>
-            <HeaderRow />
-          </thead>
+          <HeaderRow />
           <tbody>
             <tr>
-              {items.map(()=>
-                <Item />
+              { items.map((detail)=>
+                <Detail {...detail} />
               )}
             </tr>
           </tbody>

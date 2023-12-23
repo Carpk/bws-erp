@@ -80,7 +80,6 @@ const DetailRows = ( detail ) =>
 
   const ProjDiv = () =>
     <Container fluid="md">
-      
       <Form>
         <Row>
           <Form.Group as={Col} className="mb-3" controlId="formGridJobName">

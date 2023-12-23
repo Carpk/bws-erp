@@ -1,7 +1,7 @@
 // import './item.css';
 
 import React from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import {Link} from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -20,74 +20,135 @@ import Data from './components/fakedata';
 import ToolBar from './components/ToolBar';
 
 
-const Item = ({item}) => {
-  const matsHeader = ["","Materials","Quantity","unit cost","Total", "ft/unit","ft/total"," "]
-  const taskHeader = ["Task","Quantity","Hours","Total"]
+const Details = ({item}) => {
+  const matsHeader = ["","Materials","Quantity","unit cost","Total", "ft/unit","ft/total",""]
+  const taskHeader = ["Task","Quantity","Hours","Total", ""]
   const [items, setItems] = useState(Data.items);
   const [tasks, setTasks] = useState(Data.tasks);
+  const  matsRef = useRef(null);
+  const  taskRef = useRef(null);
   let rows = []
   let i = 0
-  // let { state } = useLocation();
-  // console.log(item);
+
 
   const MatsHeader = () =>
     React.createElement("tr", null,
       matsHeader.map((title, i) =>
-        React.createElement("th", { key: i }, title),
+        React.createElement("th", { key: title }, title),
       )
     )
 
   const TaskHeader = () =>
     React.createElement("tr", null,
       taskHeader.map((title, i) =>
-        React.createElement("th", { key: i }, title),
+        React.createElement("th", { key: title }, title),
       )
     )
 
   function addMats() {
-     setItems([...items,{name: "taco", quantity: 3, cost: 2.75}])
+    const name = matsRef.current.children[1].firstChild.value
+    const quantity = matsRef.current.children[2].firstChild.value
+    const cost = matsRef.current.children[3].firstChild.value
+
+    setItems([...items,{name: name, quantity: quantity, cost: cost}])
   }
 
   function addTask() {
-    setTasks([...tasks,{name: "taco", quantity: 3, hours: 2.75}])
- }
+    const task = taskRef.current.children[0].firstChild.value
+    const quantity = taskRef.current.children[1].firstChild.value
+    const hours = taskRef.current.children[2].firstChild.value
+
+    setTasks([...tasks,{name: task, quantity: quantity, hours: hours}])
+  }
+
+  // function ItemModal() {
+  //   return (
+  //     <Modal
+
+  //       size="lg"
+  //       aria-labelledby="contained-modal-title-vcenter"
+  //       centered
+  //     >
+  //     <Modal.Header closeButton>
+  //       <Modal.Title id="contained-modal-title-vcenter">
+  //         Edit:
+  //       </Modal.Title>
+  //     </Modal.Header>
+  //     <Modal.Body>
+  //       <h4>Centered Modal</h4>
+  //       <p>
+  //         Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
+  //         dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
+  //         consectetur ac, vestibulum at eros.
+  //       </p>
+  //     </Modal.Body>
+  //     <Modal.Footer>
+  //       <Button onClick={props.onHide}>Close</Button>
+  //     </Modal.Footer>
+  //   </Modal>
+  //   )
+  // }
 
 
-
-  const Item = ({name, quantity, footage, cost}) => 
+  const Item = ({id, name, quantity, footage, cost}) => 
     React.createElement("tr", null,
       React.createElement("td", { key: i, }, ""),
-      React.createElement("td", { key: i, contentEditable: true }, name),
-      React.createElement("td", { key: i, contentEditable: true }, quantity),
-      React.createElement("td", { key: i, contentEditable: true }, "$" + cost),
+      React.createElement("td", { key: i }, name),
+      React.createElement("td", { key: i }, quantity),
+      React.createElement("td", { key: i }, "$" + cost),
       React.createElement("td", { key: i }, "$" + cost * quantity),
-      React.createElement("td", { key: i, contentEditable: true }, footage),
+      React.createElement("td", { key: i }, footage),
       React.createElement("td", { key: i }, quantity * footage),
-      React.createElement("td", { }, "")
+      React.createElement("td", { },
+        <Link to={{
+          pathname: "/accounting/estimate/" + id + "/" + id,
+          state: id
+        }} >⚙</Link>
+      )
     )
   
   const ItemInput = () => 
-    React.createElement("tr", null,
+    React.createElement("tr", { key: i, ref: matsRef},
       React.createElement("td", { key: i, }, ""),
-      React.createElement("td", { key: i, contentEditable: true }, 
-      React.createElement("input", { key: i, } )),
-      React.createElement("td", { key: i, contentEditable: true }, ""),
-      React.createElement("td", { key: i, contentEditable: true }, ""),
+      React.createElement("td", { key: i }, 
+        React.createElement("input", { key: i } )),
+      React.createElement("td", { key: i }, 
+        React.createElement("input", { key: i } )),
+      React.createElement("td", { key: i },
+        React.createElement("input", { key: i } )),
       React.createElement("td", { key: i }, ""),
-      React.createElement("td", { key: i, contentEditable: true }, ""),
+      React.createElement("td", { key: i }, ""),
       React.createElement("td", { key: i }, ""),
       React.createElement("td", { }, "")
     )
 
 
-  const Task = ({name, quantity, hours}) => 
+  const Task = ({id, name, quantity, hours}) => 
     React.createElement("tr", null,
-      React.createElement("td", { key: i, contentEditable: true }, name),
-      React.createElement("td", { key: i, contentEditable: true }, quantity),
-      React.createElement("td", { key: i, contentEditable: true }, hours),
-      React.createElement("td", { key: i }, quantity * hours)
+      React.createElement("td", { key: i }, name),
+      React.createElement("td", { key: i }, quantity),
+      React.createElement("td", { key: i }, hours),
+      React.createElement("td", { key: i }, quantity * hours),
+      React.createElement("td", { key: i }, 
+        <Link to={{
+          pathname: "/accounting/estimate/" + id + "/" + id,
+          state: id
+        }} >⚙</Link>
+      )
     )
-  
+
+  const TaskInput = () => 
+    React.createElement("tr", { key: i, ref: taskRef},
+      React.createElement("td", { key: i }, 
+        React.createElement("input", { key: i } )),
+      React.createElement("td", { key: i }, 
+        React.createElement("input", { key: i } )),
+      React.createElement("td", { key: i },
+        React.createElement("input", { key: i } )),
+      React.createElement("td", { key: i }, ""),
+      React.createElement("td", { key: i }, "")
+    )
+
 
   return (
     <Container fluid="md">
@@ -110,7 +171,7 @@ const Item = ({item}) => {
           </Form.Group>
         </Row>
         <Row>
-        <Form.Group as={Col} className="mb-4" controlId="formQuantity">
+          <Form.Group as={Col} className="mb-4" controlId="formQuantity">
             <Form.Label>Quantity</Form.Label>
             <Form.Control />
           </Form.Group>
@@ -149,19 +210,7 @@ const Item = ({item}) => {
             { items.map((row) => 
                 <Item {...row} />
             )}
-            <tr>
-              <td></td>
-              <td>
-                <input type="text" />
-              </td>
-              <td>
-                <input type="text" />
-              </td>
-              <td>
-                <input type="text" />
-              </td>
-              <td></td><td></td><td></td><td></td>
-            </tr>
+            <ItemInput />
           </tbody>
         </Table>
         <Button variant="light" onClick={addMats}>Add row</Button>
@@ -173,18 +222,7 @@ const Item = ({item}) => {
             { tasks.map((row) => 
                 <Task {...row} />
             )}
-            <tr>
-              <td>
-                <input type="text" />
-              </td>
-              <td>
-                <input type="text" />
-              </td>
-              <td>
-                <input type="text" />
-              </td>
-              <td></td>
-            </tr>
+            <TaskInput />
           </tbody>
         </Table>
         <Button variant="light" onClick={addTask}>Add row</Button>
@@ -198,48 +236,8 @@ const Item = ({item}) => {
   )
 }
 
-export default Item;
+export default Details;
 
-
-
-  // function CreateRow({name, quantity, footage, cost}) {
-  //   console.log(item);
-  //   return (
-  //     <tr>
-  //       <td></td>
-  //       <td contentEditable="true">{name}</td>
-  //       <td contentEditable="true">{quantity}</td>
-  //       <td contentEditable="true">${cost}</td>
-  //       <td>${cost * quantity}</td>
-  //       <td contentEditable="true">{footage}</td>
-  //       <td>{footage * quantity}</td>
-  //       <td></td>
-  //     </tr>
-  //   )
-  // }
-
-
-
-
-
-// function BuildSelect() {
-//   return (
-//     <Form.Select  >
-//       <option value="0">none</option>
-//       <option value="1">Linear ft</option>
-//       <option value="2">1x1 Sq ft</option>
-//       <option value="32">4x8 sheet</option>
-//       <option value="128">4x4x8 block</option>
-//     </Form.Select>
-//   )
-// }
-
-
-
-// "<td></td><td contenteditable='true'></td><td>"+               
-// "<Form.Select><option value='1'>Linear ft</option>"+
-// '<option value="2">Sq ft</option><option value="32">4x8</option>'+
-// "</Form.Select></td><td></td><td></td><td></td><td></td><td></td>"
 
 
 

@@ -17,7 +17,8 @@ import Home from "./pages/home";
 import User from "./pages/user";
 import Users from "./pages/users";
 import Estimate from "./pages/estimate";
-import Item from "./pages/item";
+import Estimates from "./pages/estimates";
+import Details from "./pages/details";
 
 function App() {
   return (
@@ -38,8 +39,9 @@ function App() {
 
 
           <Route path="/accounting/estimate/new" exact element={<Estimate />} />
+          <Route path="/accounting/estimate/all" exact element={<Estimates />} />
           <Route path="/accounting/estimate/:id" exact element={<Project />} />
-          <Route path="/accounting/estimate/:id/:id" exact element={<Item />} />
+          <Route path="/accounting/estimate/:id/:id" exact element={<Details />} />
 
         </Routes>
       </BrowserRouter>

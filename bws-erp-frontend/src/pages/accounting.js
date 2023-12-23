@@ -59,11 +59,10 @@ const Accounting = () => {
               <Card.Title>Users</Card.Title>
               <Card.Subtitle className="mb-2 text-muted">Card Subtitle</Card.Subtitle>
               <Card.Text>
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content.
+                Add, remove, or manage users
               </Card.Text>
-              <Card.Link href="/accounting/users">users</Card.Link>
-              <Link to={`/accounting/users`}>users</Link>
+              {/* <Card.Link href="/accounting/users">users</Card.Link> */}
+              <Link to={`/accounting/users`}>All Users</Link>
             </Card.Body>
           </Card>
           
@@ -79,14 +78,14 @@ const Accounting = () => {
                       if (!proj.production)   
                         return (
                           <li>
-                            <Card.Link href={`/accounting/invoice/${proj.id}`}>{proj.job_name}</Card.Link>
+                            <Card.Link href={`/accounting/estimate/${proj.id}`}>{proj.name}</Card.Link>
                           </li>
                         ) 
                     })}
                 </ul>
               </Card.Text>
-              <Card.Link href="/accounting/invoice/new">New Invoice</Card.Link>
-              <Card.Link href="/accounting/invoice/all">All invoices</Card.Link>
+              <Card.Link href="/accounting/estimate/new">New Estimate</Card.Link>
+              <Card.Link href="/accounting/estimate/all">All Estimates</Card.Link>
               {/* <Link to={`/accounting/invoice/new`}>invoices</Link> */} 
             </Card.Body>
           </Card>
@@ -97,8 +96,7 @@ const Accounting = () => {
               <Card.Title>Projects</Card.Title>
               <Card.Subtitle className="mb-2 text-muted">recent projects</Card.Subtitle>
               <Card.Text>
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content.
+                Manage status and timeline of projects
               </Card.Text>
               <Card.Link href="/accounting/projects">All projects</Card.Link>
             </Card.Body>

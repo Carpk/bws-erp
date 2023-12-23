@@ -1,21 +1,55 @@
 
 const FakeData = {
   projects: [{
-      id: 1101,
-      job_name: "Color Of Us",
-      production: true,
-      bid_number: 529,
-      job_number: 391,
-      purchase_order: 83579,
-      details: [1201, 1202, 1203]
+    id: 1101,
+    name: "Colors Of The Sky",
+    client_id: 1160,
+    production: true,
+    bid: 529,
+    job: 391,
+    purchase_order: 83579,
+    details: [1201, 1202, 1203]
   },{
     id: 1102,
-    job_name: "Night Sky",
+    name: "Purple Rain",
+    client_id: 1161,
     production: false,
-    bid_number: 534,
-    job_number: 423,
+    bid: 534,
+    job: 423,
     purchase_order: 83582,
     details: [1204]
+  },{
+    id: 1103,
+    name: "Chicago Crime",
+    client_id: 1161,
+    production: false,
+    bid: 534,
+    job: 423,
+    purchase_order: 83582,
+    details: [1204]
+  },{
+    id: 1104,
+    name: "Tapioco",
+    client_id: 1162,
+    production: false,
+    bid: 534,
+    job: 423,
+    purchase_order: 83582,
+    details: [1204]
+  }],
+
+  clients: [{
+    id: 1160,
+    name: "Reebok",
+    projects: [1101]
+  },{
+    id: 1161,
+    name: "Pizza Hut",
+    projects: [1102,1103]
+  },{
+    id: 1162,
+    name: "Accenture",
+    projects: [1104]
   }],
 
   details: [{
@@ -159,6 +193,24 @@ const FakeData = {
     footage: null,
     date: {request: null, ordered: null, delovered: null},
     status: "Estimate",
+    quantity: 1,
+    cost: 125.00
+  },{
+    id:1407,
+    name: "Sheet metal",
+    vendor: null,
+    footage: null,
+    date: {request: "2023-10-8", ordered: null, delovered: null},
+    status: "Requested",
+    quantity: 1,
+    cost: 125.00
+  },{
+    id:1408,
+    name: "Bucket of Hammers",
+    vendor: null,
+    footage: null,
+    date: {request: "2023-10-7", ordered: null, delovered: null},
+    status: "Requested",
     quantity: 1,
     cost: 125.00
   }],
