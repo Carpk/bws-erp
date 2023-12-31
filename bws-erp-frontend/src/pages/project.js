@@ -20,15 +20,9 @@ import ToolBar from './components/ToolBar';
 // const { id } = useParams()
 
 
-
-
-
-
-
 // const data = Data.projects[0]
 // const details = Data.details.filter((detail) => 
 //   data.details.includes(detail.id))
-
 
 
 

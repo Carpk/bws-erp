@@ -1,0 +1,12 @@
+.pad-graph {
+  /* padding-top: 24px; */
+  padding: 24px 20px 10px 24px;
+}
+
+.card .card-body ul li {
+  list-style: none;
+}
+
+.bottom-marg {
+  margin-bottom: 12px;
+}

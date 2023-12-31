@@ -1,7 +1,6 @@
 import React from 'react';
-import Header from './components/Header';
 // import ReactDOM from 'react-dom';
-import {Link} from "react-router-dom";
+// import {Link} from "react-router-dom";
 import Container from 'react-bootstrap/Container';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Table from 'react-bootstrap/Table';
@@ -12,19 +11,25 @@ import Col from 'react-bootstrap/Col';
 import { Chart } from "react-google-charts";
 import ListGroup from 'react-bootstrap/ListGroup';
 
-import { faker } from '@faker-js/faker';
+
+// import { faker } from '@faker-js/faker';
 import Data from './components/fakedata';
+import './home.css'
 
 const Home = () => {
   const orderHeader = ["Item","Date","Status"]
   const data = [
-    ["Jobs", "You", "Shop Avg"],
+    ["Projects", "You", "Shop Avg"],
     ["Shop", 4, 8],
     ["Trolls", 24, 26],
     ["Harley", 12, 6],
   ];
   let i = 0
 
+
+  const alertClicked = () => {
+    alert('You clicked the third ListGroupItem');
+  };
 
   const OrderHeader = () =>
     React.createElement("thead", null, 
@@ -35,6 +40,19 @@ const Home = () => {
       )
     )
 
+  const CalledOuts = () =>
+  React.createElement("Table", null, 
+    React.createElement("thead", null, 
+      React.createElement("th", null, "Today"),
+      React.createElement("th", null, "Tomorrow"),
+      React.createElement("th", null, "Day After")
+    ),
+    React.createElement("tr", null, 
+      React.createElement("td", null, "Henry"),
+      React.createElement("td", null, "Bill, Alice, Jeff"),
+      React.createElement("td", null, "Frank, Marc")
+    )
+  )
 
   const Order = ({id, name, date, status}) =>
     React.createElement("tr", { key: i }, 
@@ -47,32 +65,67 @@ const Home = () => {
     <Container fluid="md">
       <Row className='bottom-space'>
         <Col>
-          <Card>
+          <Card className='bottom-marg'>
             <Card.Body>
-              <Card.Title>At a glance</Card.Title>
+              <Card.Title><p>At a glance</p></Card.Title>
               <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
               <Card.Text>
-                <h4>Trolls</h4>
-                Some quick example text to build on the card title and make up the
-                bulk of the card's content.
+                <p>Currently, you are scheduled to work on:
+                <br></br>Painting - The Sound of Air</p>
+                <p>Messages:
+                <ul>
+                  <li>HR needs your dental records</li>
+                </ul>
+                </p>
+
               </Card.Text>
-              <Card.Link href="/accounting/users">users</Card.Link>
+              {/* <Card.Link href="/accounting/users">users</Card.Link> */}
             </Card.Body>
           </Card>
-          <ul>
-            <li>
-              <Card.Link href="/accounting/invoice/:id">Taco Jims</Card.Link>
-            </li>
-            <li>
-              <Card.Link href="/accounting/invoice/:id">Jim Dean</Card.Link>
-            </li>
-            <li>
-              <Card.Link href="/accounting/invoice/:id">Harley Davison</Card.Link>
-            </li>
-          </ul>
+          <Card>
+            <Card.Body>
+              <Card.Title>Called Out</Card.Title>
+              <Card.Subtitle className="mb-2 text-muted"></Card.Subtitle>
+              <Card.Text>
+                <Row>
+                  <Col>
+                    <Card>
+                      <Card.Body>
+                        <b>Today</b>
+                        <ul>
+                          <li>Jim</li>
+                        </ul>
+                      </Card.Body>
+                    </Card>
+                    </Col>
+                  <Col>
+                    <Card>
+                      <Card.Body>
+                        <b>Tomorrow</b>
+                        <ul>
+                          <li>Jim</li>
+                          <li>George</li>
+                        </ul>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col>
+                    <Card>
+                      <Card.Body>
+                        <b>Day After</b>
+                        <ul>
+                          <li>Kyle</li>
+                        </ul>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                </Row>
+              </Card.Text>
+            </Card.Body>
+          </Card>
         </Col>
         <Col>
-          <Card>
+          <Card className='pad-graph'>
             <Card.Body>
               <Chart
                 chartType="Bar"
@@ -92,9 +145,9 @@ const Home = () => {
             <Card.Body>
               <Card.Title>Call Out</Card.Title>
               <Card.Text>
-                Let us know whne you will be out.
+                Let us know when you will be out.
               </Card.Text>
-              <Button href="#"  variant="primary">Call Out Form</Button>
+              <Button href="/callout"  variant="primary">Call Out Form</Button>
             </Card.Body>
           </Card>
         </Col>
@@ -108,12 +161,13 @@ const Home = () => {
                   <OrderHeader />
                   <tbody>
                     { Data.items.map((item) =>
-                      (item.status != "Estimate") ? <Order {...item} /> : null
+                      (item.status !== "Estimate") ? <Order {...item} /> : null
                     )}
                   </tbody>
                 </Table>
               </Card.Text>
-              <Card.Link href="/orders">Go to orders</Card.Link>
+              <Card.Link href="/orders">All orders</Card.Link>
+              <Button href="/callout" className='float-end' variant="primary">Request Item</Button>
               {/* <Link to={`/accounting/estimate/new`}>invoices</Link> */}
             </Card.Body>
           </Card>
@@ -122,7 +176,7 @@ const Home = () => {
           <Card>
             <Card.Body>
               <Card.Title>Projects</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">Current completion rates</Card.Subtitle>
+              <Card.Subtitle className="mb-2 text-muted">Current overviews</Card.Subtitle>
               <Card.Text>
                     Trolls
                     <ProgressBar now={60} label={`progress ${60}%`} />
@@ -143,12 +197,14 @@ const Home = () => {
               <Card.Title>Projects</Card.Title>
               <Card.Subtitle className="mb-2 text-muted">Manage project timelines</Card.Subtitle>
               <Card.Text>
-                    Trolls
-                    <ProgressBar now={60} label={`progress ${60}%`} />
-                    Harley
-                    <ProgressBar now={18} label={`progress ${18}%`}/>
+                <Card.Link href="/management/projects">Moonlighting</Card.Link>
+                <br></br>chopping wood 
               </Card.Text>
-              <Card.Link href="/projects">All projects</Card.Link>
+              <Card.Text>
+                <Card.Link href="/management/projects">Skynet</Card.Link>
+                <br></br>digging holes
+              </Card.Text>
+              <Card.Link href="/management/projects">All projects</Card.Link>
               {/* <Link to={`/accounting/users`}>users</Link> */}
             </Card.Body>
           </Card>
@@ -161,6 +217,14 @@ const Home = () => {
               <Card.Text>
                 <Table striped bordered hover size="sm">
                   Assign employees to projects
+                  <ListGroup >
+                    <ListGroup.Item action onClick={alertClicked}>
+                      Bill G. <span className='float-end'>Taco Gun</span>
+                    </ListGroup.Item>
+                    <ListGroup.Item action onClick={alertClicked}>
+                      Suzanne R. <span className='float-end'>unassigned</span>
+                    </ListGroup.Item>
+                  </ListGroup>
                 </Table>
               </Card.Text>
               <Card.Link href="#">All Employees</Card.Link>
@@ -186,16 +250,12 @@ const Home = () => {
         <Col>
           <Card>
             <Card.Body>
-              <Card.Title>Projects</Card.Title>
-              <Card.Subtitle className="mb-2 text-muted">Current completion</Card.Subtitle>
+              <Card.Title>TBA</Card.Title>
+              <Card.Subtitle className="mb-2 text-muted">Currently under consideration</Card.Subtitle>
               <Card.Text>
-                Trolls
-                <ProgressBar now={60} label={`progress ${60}%`} />
-                Harley
-                <ProgressBar now={18} label={`progress ${18}%`}/>
+                
               </Card.Text>
-              <Card.Link href="/projects">All projects</Card.Link>
-              {/* <Link to={`/accounting/users`}>users</Link> */}
+              <Card.Link href="/projects"></Card.Link>
             </Card.Body>
           </Card>
         </Col>
@@ -215,7 +275,7 @@ const Home = () => {
                   </thead>
                   <tbody>
                     { Data.items.map((item) => {      
-                      if (item.status == "Requested")   
+                      if (item.status === "Requested")   
                         return (
                           <tr>
                             <td>{item.name}</td>
@@ -258,3 +318,27 @@ const Home = () => {
 };
 
 export default Home;
+
+
+// LISTING THE CALLEDOUT EMPLOYEES:
+                {/* <Row>
+                  <Col>
+                    <b>Today</b>
+                    <ul>
+                      <li>Jim</li>
+                    </ul>
+                  </Col>
+                  <Col>
+                  <b>Tomorrow</b>
+                    <ul>
+                      <li>Jim</li>
+                      <li>George</li>
+                    </ul>
+                  </Col>
+                  <Col>
+                  <b>Day After</b>
+                    <ul>
+                      <li>Kyle</li>
+                    </ul>
+                  </Col>
+                </Row> */}

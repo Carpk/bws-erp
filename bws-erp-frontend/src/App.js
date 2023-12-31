@@ -19,6 +19,7 @@ import Users from "./pages/users";
 import Estimate from "./pages/estimate";
 import Estimates from "./pages/estimates";
 import Details from "./pages/details";
+import Callout from "./pages/callout";
 
 function App() {
   return (
@@ -34,8 +35,11 @@ function App() {
           <Route path="/orders" exact element={<Orders />} />
           <Route path="/user/home" exact element={<Home />} />
           <Route path="/user/:id" exact element={<User />} />
+          <Route path="/callout" exact element={<Callout />} />
+          
 
-          <Route path="/accounting/users" exact element={<Users />} />
+          <Route path="/management/projects" exact element={<Projects />} />
+          <Route path="/management/users" exact element={<Users />} />
 
 
           <Route path="/accounting/estimate/new" exact element={<Estimate />} />

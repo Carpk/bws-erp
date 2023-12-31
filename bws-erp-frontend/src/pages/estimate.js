@@ -82,7 +82,7 @@ const Estimate = () => {
           </Form.Group>
 
           <Form.Group as={Col} className="mb-3" controlId="formPO">
-            <Form.Label>PO#</Form.Label>
+            <Form.Label>PO</Form.Label>
             <Form.Control />
           </Form.Group>
         </Row>

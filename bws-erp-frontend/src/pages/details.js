@@ -18,17 +18,27 @@ import Modal from 'react-bootstrap/Modal';
 
 import Data from './components/fakedata';
 import ToolBar from './components/ToolBar';
-
+import EditMatsModal from './components/EditMatModal';
 
 const Details = ({item}) => {
   const matsHeader = ["","Materials","Quantity","unit cost","Total", "ft/unit","ft/total",""]
   const taskHeader = ["Task","Quantity","Hours","Total", ""]
   const [items, setItems] = useState(Data.items);
   const [tasks, setTasks] = useState(Data.tasks);
+  const [show, setShow] = useState(false);
   const  matsRef = useRef(null);
   const  taskRef = useRef(null);
   let rows = []
   let i = 0
+
+  function getCost() {
+    let cost = 0
+    items.map((item) =>
+      cost += item.quantity * item.cost
+    )
+
+    return cost
+  }
 
 
   const MatsHeader = () =>
@@ -61,49 +71,18 @@ const Details = ({item}) => {
     setTasks([...tasks,{name: task, quantity: quantity, hours: hours}])
   }
 
-  // function ItemModal() {
-  //   return (
-  //     <Modal
 
-  //       size="lg"
-  //       aria-labelledby="contained-modal-title-vcenter"
-  //       centered
-  //     >
-  //     <Modal.Header closeButton>
-  //       <Modal.Title id="contained-modal-title-vcenter">
-  //         Edit:
-  //       </Modal.Title>
-  //     </Modal.Header>
-  //     <Modal.Body>
-  //       <h4>Centered Modal</h4>
-  //       <p>
-  //         Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-  //         dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-  //         consectetur ac, vestibulum at eros.
-  //       </p>
-  //     </Modal.Body>
-  //     <Modal.Footer>
-  //       <Button onClick={props.onHide}>Close</Button>
-  //     </Modal.Footer>
-  //   </Modal>
-  //   )
-  // }
-
-
-  const Item = ({id, name, quantity, footage, cost}) => 
+  const Item = item => 
     React.createElement("tr", null,
       React.createElement("td", { key: i, }, ""),
-      React.createElement("td", { key: i }, name),
-      React.createElement("td", { key: i }, quantity),
-      React.createElement("td", { key: i }, "$" + cost),
-      React.createElement("td", { key: i }, "$" + cost * quantity),
-      React.createElement("td", { key: i }, footage),
-      React.createElement("td", { key: i }, quantity * footage),
-      React.createElement("td", { },
-        <Link to={{
-          pathname: "/accounting/estimate/" + id + "/" + id,
-          state: id
-        }} >⚙</Link>
+      React.createElement("td", { key: i }, item.name),
+      React.createElement("td", { key: i }, item.quantity),
+      React.createElement("td", { key: i }, "$" + item.cost),
+      React.createElement("td", { key: i }, "$" + item.cost * item.quantity),
+      React.createElement("td", { key: i }, item.footage),
+      React.createElement("td", { key: i }, item.quantity * item.footage),
+      React.createElement("td", { }, 
+        <EditMatsModal props={item} />
       )
     )
   
@@ -157,18 +136,18 @@ const Details = ({item}) => {
         <Row>
           <Form.Group as={Col} className="mb-2" controlId="formItemName">
             <Form.Label>Item</Form.Label>
-            <Form.Control defaultValue={"unit name"} />
+            <Form.Control defaultValue={"Left Pillar"} />
           </Form.Group>
 
           <Form.Group as={Col} className="mb-2" controlId="formQuantity">
             <Form.Label>Cost</Form.Label>
-            <Form.Control disabled />
+            <Form.Control defaultValue={getCost()} disabled />
           </Form.Group>
 
-          <Form.Group as={Col} className="mb-2" controlId="formGridJobName">
+          {/* <Form.Group as={Col} className="mb-2" controlId="formGridJobName">
             <Form.Label>Cost</Form.Label>
             <Form.Control disabled />
-          </Form.Group>
+          </Form.Group> */}
         </Row>
         <Row>
           <Form.Group as={Col} className="mb-4" controlId="formQuantity">
@@ -201,19 +180,19 @@ const Details = ({item}) => {
             <Form.Control defaultValue={"test"} /> */}
           </Form.Group>
         </Row>
-
+        <Row></Row>
         <Table striped bordered hover>
           <thead>
             <MatsHeader />
           </thead>
           <tbody id="tableRows">
-            { items.map((row) => 
-                <Item {...row} />
+            { items.map((item) => 
+                <Item {...item} />
             )}
             <ItemInput />
           </tbody>
         </Table>
-        <Button variant="light" onClick={addMats}>Add row</Button>
+        <Button variant="light" onClick={addMats}>Add Material</Button>
         <Table striped bordered hover>
           <thead>
             <TaskHeader />
@@ -225,10 +204,13 @@ const Details = ({item}) => {
             <TaskInput />
           </tbody>
         </Table>
-        <Button variant="light" onClick={addTask}>Add row</Button>
+        <Button variant="light" onClick={addTask}>
+          Add Task
+        </Button>
       </Form>
+      
       <Row className="float-end">
-        <Button variant="primary" type="submit">
+        <Button href="/accounting/estimate/:id" variant="primary" type="submit">
           Save
         </Button>
       </Row>
